@@ -1,0 +1,1436 @@
+
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: class3.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+//ES5
+function NewsPaper (params) {
+	this.title = params.title;
+	this.summary = params.summary;
+	this.content = params.content;
+	this.date = params.date;
+	this.author = params.author;
+}
+
+NewsPaper.medium = 'Paper'
+
+NewsPaper.prototype.format = function () {
+	return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`	
+}
+
+var news1 = new NewsPaper({
+	title: 'Bye C. Ronaldo',
+	summary: 'Ronaldo leaves RM',
+	content: '.....',
+	date: '06/23/2017',
+	author: 'Pablo Orellana'
+})
+
+console.log(news1.format())
+NewsPaper.medium
+
+function isRequired(paramName) {
+	throw new Error(`${paramName} is required`)
+}
+
+//default function parameters
+function printInvoice (item = isRequired('Item'), price = 100) {
+	//ES5
+	//price = price || 100 
+	//if (!item) {
+	//	throw new Error('Item is required')
+	//}
+
+	console.log(`${item} - ${price}Bs.`)
+}
+
+printInvoice(undefined, 100)
+
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: filesystemhomework.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+const fs = require('fs')
+
+console.log('first example');
+
+class FileUtility{
+    constructor(){
+        this.paths=[];
+        this.typeFiles=[];
+        this.printContent=false;
+        this.exportTo = "";
+    }
+
+    list (path,parameters){
+        if (parameters==undefined){
+            fs.readdir(path,function (err,files){
+                if (err){
+                    console.err (`Not exist ${path}`);
+                };
+                files.forEach(function(filepath){
+                        console.log(`${filepath}`);
+                });
+            })
+        }
+        else {
+            var paths = parameters.extension.split(',');
+            var print = parameters.printContent;
+            var exportTo = parameters.exportTo;
+            fs.readdir(path,function (err,files){
+                if (err){
+                    console.err (`Not exist ${path}`);
+                };
+                files.forEach(function(filepath){
+                    paths.forEach(function(extention){
+                        if (filepath.endsWith(extention)){
+                            if (print){
+                                fs.readFile(filepath, function (err,file){
+                                    if (err){
+                                        console.error('File notfound');
+                                    }
+                                    if (exportTo!=""){
+                                    fs.open(exportTo,'a+',function(err,fd){
+                                        if (err){
+                                            console.err("error")
+                                        }
+                                        {
+                                            fs.appendFile(exportTo,`\n######\n######\n######\n######\n######\n######\n######\n######\n######Archivo: ${filepath}#######\n######\n######\n######\n######\n######\n######\n######\n######\n######\n${file}`,function(err){
+                                                if (err){
+                                                    console.errorreturn(err);
+                                                }
+                                               
+                                                    
+                                            })
+                                        }
+                                    })
+                                }
+                                else{
+                                     fs.readFile(filepath,function (err,newfile){
+                                                    if (err){
+                                                        console.error('File notfound');
+                                                    }
+                                                    console.log(`###########\nArchivo: ${exportTo}\n############\n ${newfile.toString()}`);
+                                                })
+                                }
+
+                                    
+                                });
+                            }
+                            else{
+                                console.log(`${filepath}`);
+                            }
+                            
+                        }
+                    })
+                    
+                });
+            })
+
+        }
+        console.log('###################################');
+    }
+
+}
+
+
+var newFileUtility = new FileUtility();
+//newFileUtility.list('./')
+newFileUtility.list('./',{
+    extension: 'js,html,css',
+    printContent: true,
+    exportTo: './new.txt'
+});
+
+/*newFileUtility.list('./',{
+    extension: '.txt',
+    printContent: true,
+    exportTo: ''
+});*/
+
+
+
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: howUseFor.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+var a= [1,2,3,4,5,6]
+
+//for in
+for (var number in a){
+	console.log(a)
+}
+
+
+//normal for
+for (var i; i<a.length;i++){
+	console.log(a[i])	
+}
+
+a.forEach(function(number){
+	console.log(number)
+})
+
+
+var b = a.map(function(number){
+	return number*10
+})
+
+var c=a.filter(function(number){
+	return number %2 ==0
+})
+
+var d=a.every(function(number){
+	return number%2==0
+})
+
+/*
+-For each
+-map
+-filter
+-every
+-some
+-find
+-findindex
+-reduce
+*/
+
+//template strings: (string interpolation)
+console.log(`${name} is ${age} years old.`)
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: newspaper.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+function New(tittle, autor, date, picture, report, locale ){
+    this.tittle = tittle;
+    this.autor = autor;
+    this.date = date; 
+    this.picture = picture;
+    this.report = report;
+    this.locale = locale;
+    this.comments = new Array();
+    this.print = function(){
+        console.log(`TITULO:${this.tittle}\n
+        AUTOR:${this.autor}\n
+        DATE:${this.date}\n
+        PICTURE:${this.picture}\n
+        REPORT:${this.report}\n
+        LOCATE:${this.locale}\n`);
+    };
+}
+
+function Section(name){
+    this.name = name;
+    this.News = new Array();
+    this.addNew = function (myNew)
+    {
+        this.News.push(myNew);
+    }
+}
+
+function Newspaper(name){
+    this.name = name;
+    this.coverPage = undefined;
+    this.sections = new Array();
+    this.comments = new Array();
+    this.addSections = function (sectionName)
+    {
+        this.sections.push(new Section(sectionName));
+        this.coverPage = this.sections[0][0];
+    }
+    this.orderSectionBy = function(Type){
+        switch (Type){
+            case "name":{
+                this.sections.sort(function(section1, section2){
+                    return section1.name > section2.name;
+                });
+                
+                break;
+            }
+            case "size":{
+                this.sections.sort(function(section1, section2){
+                    return section1.News.length > section2.News.length;
+                });
+                break;
+            }
+            this.coverPage = this.sections[0][0];
+        }
+    };
+    this.show = function(){
+        this.coverPage.print();
+         this.sections.forEach(function(mNews){
+             mNews.News.forEach(function(Mynew){
+                 Mynew.print();
+             });
+         });
+    }
+}
+
+
+
+
+
+//TEST//////////////////
+
+var laPatria = new Newspaper("Lapatria");
+laPatria.addSections("Deportes");
+laPatria.addSections("Economicos");
+laPatria.addSections("Policial");
+
+
+var sportsNew = new New("Bolivar El Campeon","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var policialNew = new New("atraco","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var economicNew = new New("Inflacion","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var economic2New = new New("Inflacion2","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var economic3New = new New("Inflacion3","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+
+laPatria.sections[0].addNew(sportsNew);
+
+laPatria.sections[1].addNew(economicNew);
+laPatria.sections[1].addNew(economic2New);
+laPatria.sections[1].addNew(economic3New);
+laPatria.sections[2].addNew(policialNew);
+
+laPatria.orderSectionBy("size");
+
+laPatria.coverPage = sportsNew;
+
+laPatria.show();
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: prototype.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: stockExchange.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+	class Offer{
+		constructor(name, quantity, unitPrice){
+			this.name = name;
+			this.quantity = quantity;
+			this.unitPrice = unitPrice;
+		} 
+	}
+	class Demand{
+		constructor (name, requiredQuantity, unitPrice){
+			this.name = name;
+			this.requiredQuantity = requiredQuantity;
+			this.unitPrice = unitPrice;
+			this.capital = unitPrice * requiredQuantity;
+		}
+	}
+
+	class stockExchange{
+		constructor (){
+			this.offers = new Array ();
+			this.demands = new Array ();
+			this.transactions = new Array ();
+			this.gain = 0; 
+		}
+		addOffer (newOffer){
+			this.offers.push(newOffer);
+		}
+		addDemand (newDemand){
+			this.demands.push(newDemand);
+		}
+		reviewState (){
+			var revoffers = this.offers;
+			var revgain = this.gain;
+			var offersOfdemand = new Array();
+			this.demands.forEach(function(demand) {
+				 offersOfdemand = revoffers.filter(function(offer){
+					return offer.name == demand.name; 
+				});
+				offersOfdemand.sort(function(offer1,offer2){
+					return offer1.unitPrice > offer2.unitPrice;
+				});
+				while (offersOfdemand.length > 0 && demand.capital >= offersOfdemand[0].unitPrice && demand.unitPrice >= offersOfdemand[0].unitPrice ){
+					if(demand.requiredQuantity >= offersOfdemand[0].quantity){
+						demand.capital = demand.capital-(offersOfdemand[0].unitPrice*offersOfdemand[0].quantity)
+						revgain += (offersOfdemand[0].unitPrice*offersOfdemand[0].quantity)*0.05;
+						demand.requiredQuantity = demand.requiredQuantity-offersOfdemand[0].quantity
+						offersOfdemand.shift();
+					}
+					else {
+						demand.capital = demand.capital-(offersOfdemand[0].unitPrice*demand.requiredQuantity)
+						revgain += (offersOfdemand[0].unitPrice*offersOfdemand[0].quantity)*0.05;
+						demand.requiredQuantity = 0;
+					}
+					console.log(`Ganciancia de la plataforma: ${revgain}\n
+								 Recurso vendido: ${demand.name}\n
+								 Precio unitario: ${demand.unitPrice}\n
+								 Cantidad a requerir: ${demand.requiredQuantity}
+								 Capital actual: ${demand.capital}`);
+				}
+			});
+		}
+	}
+
+
+
+	//test///////
+	var newstockExchange = new stockExchange();
+	newstockExchange.addOffer(new Offer("oil",10,100));
+	newstockExchange.addOffer(new Offer("gold",8,50));
+	newstockExchange.addOffer(new Offer("plate",50,20));
+	newstockExchange.addOffer(new Offer("oil",10,200));
+	newstockExchange.addOffer(new Offer("oil",10,100));
+	newstockExchange.addDemand(new Demand("oil",100,100));
+	newstockExchange.addDemand(new Demand("gold",4,50));
+
+	newstockExchange.reviewState();
+
+
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: untitled.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+//verciones Java
+//EcmaScript 5 el clasico
+//EcmaScript 2017 ultimo
+
+
+// declaracion de variables
+
+var myString = 'XD'
+
+let myOtherString = ':v'
+
+const yetAnotherString = ':)'
+
+/*
+diferencias en variables
+		scope			reassing        hoisting
+var    funcion          yet        		yes 		es5
+let    block			yet 			no          es2015
+const  block			no only type    no          es2015 
+*/
+
+//function declaration
+function sum(a,b){
+	return a+b
+}
+sum (1,2)
+sum(1,2,3,4)
+sum(1)
+sum()
+
+//function expression
+var multiply = function(a,b){
+	return a*b;
+}
+
+//callback funcion que se envia
+function execute (cb,a,b) {
+	return cb(a,b)
+
+}
+
+execute (sum,5,10)
+execute (multiply,2,9)
+
+function divide (a){
+	return function (b){
+		return a/b
+	}
+}
+
+divide(10)(5)
+
+//first order functions
+
+
+/*////////////////////////
+objetos
+////////////////////////*/
+
+var name = 'alejandro'
+
+///////////////////////////////////////////
+//object literals ES5
+var person = {
+	name: name,
+	age: 27,
+	sayHi: function()
+	{
+		console.log('Hi!!')
+	}
+}
+
+person.name='alejandro heredia'
+person.sayHi()
+
+person['name'] //para acceder por medio de variables
+////////////////////////////////////////////
+
+
+
+
+
+
+///////////////////////////////////////////
+
+var name='alejandro'
+//object literals ES2015
+var person = {
+	name //object attribute shorthand
+	age: 27,
+	sayHi(): //object method shorthand
+	{
+		console.log('Hi!!')
+	}
+	['date-birth']='21/5/2017' //computed propety
+}
+
+person.name='alejandro heredia'
+person.sayHi()
+
+person['name'] //para acceder por medio de variables
+
+
+
+////////////////////////////////////////////////
+
+
+
+//Object creation patterns
+//-object literal
+//-constructor functions
+//-factory functions
+//-classes
+
+//-constructor functions //es5
+function Person (name,age){
+	this.name=name
+	this.age=age
+	this.sayHi= function(){
+		console.log('Hi!!')
+	}
+	job
+}
+
+var pedro = new Person('Pedor',20)
+
+
+
+///////////////////////////////////
+/*
+######
+######
+######
+######
+######
+######
+######
+######
+######Archivo: vie23jun.js#######
+######
+######
+######
+######
+######
+######
+######
+######
+######
+//otro periodico//
+
+//ES%
+function NewsPaper(params){
+    this.title = params.title;
+    this.summary = params.summary;
+    this.content = params.content;
+    this.date = params.date;
+    this.author = params.author;
+}
+
+NewsPaper.medium = "Paper"
+
+NewsPaper.prototype = {
+    format() {
+        return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`
+    }
+}
+
+
+NewsPaper.prototype.format = function (){
+    return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`
+}
+
+var NewsPaper1 = new NewsPaper({
+    title: "Bye C. Ronaldo", 
+    summary: "Ronaldo lives RM",
+    content: "........",
+    date: "06/23/2017",
+    author: "Alejandro Heredia",
+})
+
+
+console.log(NewsPaper1.format())
+
+//nueva version ES2015
+
+class NewsPaper{
+    constructor (params){
+    this.title = params.title;
+    this.summary = params.summary;
+    this.content = params.content;
+    this.date = params.date;
+    this.author = params.author;
+    }
+    format (){
+    return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`;
+    }
+    static get medium (){
+        return "Paper";
+    }
+}
+
+var NewsPaper1 = new NewsPaper({
+    title: "Bye C. Ronaldo", 
+    summary: "Ronaldo lives RM",
+    content: "........",
+    date: "06/23/2017",
+    author: "Alejandro Heredia",
+})
+
+
+console.log(NewsPaper1.format())
+//dafault function parameters
+function isRequired(paramName){
+    trow new Error (`${paramName} is required`)
+}
+
+
+function printInvoice (item = isRequired(`Item`),price=100){
+    //ES
+    //price=price||100
+    //if (!item){
+    //    trow new Error (`Item is required`)
+    //}
+    console.log(`${item} - ${price}Bs`)
+}
+
+//printInvoice('bike',100);
+
+
+////////////////////////TAREA///////////////////
+
+
+
+######
+Archivo: class3.js######
+//ES5
+function NewsPaper (params) {
+	this.title = params.title;
+	this.summary = params.summary;
+	this.content = params.content;
+	this.date = params.date;
+	this.author = params.author;
+}
+
+NewsPaper.medium = 'Paper'
+
+NewsPaper.prototype.format = function () {
+	return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`	
+}
+
+var news1 = new NewsPaper({
+	title: 'Bye C. Ronaldo',
+	summary: 'Ronaldo leaves RM',
+	content: '.....',
+	date: '06/23/2017',
+	author: 'Pablo Orellana'
+})
+
+console.log(news1.format())
+NewsPaper.medium
+
+function isRequired(paramName) {
+	throw new Error(`${paramName} is required`)
+}
+
+//default function parameters
+function printInvoice (item = isRequired('Item'), price = 100) {
+	//ES5
+	//price = price || 100 
+	//if (!item) {
+	//	throw new Error('Item is required')
+	//}
+
+	console.log(`${item} - ${price}Bs.`)
+}
+
+printInvoice(undefined, 100)
+
+######
+Archivo: example.js######
+const fs = require('fs')
+
+console.log('line 1')
+
+fs.readFile('/etc/passwd', 'utf-8', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+
+console.log('line 2')
+console.log('line 3')
+######
+Archivo: filesystem.js######
+/*const fs = require('fs')
+
+fs.readFile('/etc/passwd', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+
+
+console.log('line2');
+console.log('line3');
+*/
+
+//callback hell
+
+const fs = require('fs')
+
+console.log('first example');
+
+class FileUtility{
+    constructor(){
+        this.paths=[];
+        this.typeFiles=[];
+        this.printContent=false;
+        this.exportTo = "";
+    }
+
+    list (path,parameters){
+    	
+    	let paths;
+    	fs.readdir(path,function (err,files){
+                if (err){
+                    console.err (`Not exist ${path}`);
+                };
+                path = files;
+                });
+            })
+        if (parameters==undefined){
+            
+        }
+######
+Archivo: filesystemhomework.js######
+const fs = require('fs')
+
+console.log('first example');
+
+class FileUtility{
+    constructor(){
+        this.paths=[];
+        this.typeFiles=[];
+        this.printContent=false;
+        this.exportTo = "";
+    }
+
+    list (path,parameters){
+        if (parameters==undefined){
+            fs.readdir(path,function (err,files){
+                if (err){
+                    console.err (`Not exist ${path}`);
+                };
+                files.forEach(function(filepath){
+                        console.log(`${filepath}`);
+                });
+            })
+        }
+        else {
+            var paths = parameters.extension.split(',');
+            var print = parameters.printContent;
+            var exportTo = parameters.exportTo;
+            fs.readdir(path,function (err,files){
+                if (err){
+                    console.err (`Not exist ${path}`);
+                };
+                files.forEach(function(filepath){
+                    paths.forEach(function(extention){
+                        if (filepath.endsWith(extention)){
+                            if (print){
+                                fs.readFile(filepath, function (err,file){
+                                    if (err){
+                                        console.error('File notfound');
+                                    }
+                                    if (exportTo!=""){
+                                    fs.open(exportTo,'a+',function(err,fd){
+                                        if (err){
+                                            console.err("error")
+                                        }
+                                        {
+                                            fs.appendFile(exportTo,`\n######\n######\n######\n######\n######\n######\n######\n######\n######Archivo: ${filepath}#######\n######\n######\n######\n######\n######\n######\n######\n######\n######\n${file}`,function(err){
+                                                if (err){
+                                                    console.errorreturn(err);
+                                                }
+                                               
+                                                    
+                                            })
+                                        }
+                                    })
+                                }
+                                else{
+                                     fs.readFile(filepath,function (err,newfile){
+                                                    if (err){
+                                                        console.error('File notfound');
+                                                    }
+                                                    console.log(`###########\nArchivo: ${exportTo}\n############\n ${newfile.toString()}`);
+                                                })
+                                }
+
+                                    
+                                });
+                            }
+                            else{
+                                console.log(`${filepath}`);
+                            }
+                            
+                        }
+                    })
+                    
+                });
+            })
+
+        }
+        console.log('###################################');
+    }
+
+}
+
+
+var newFileUtility = new FileUtility();
+//newFileUtility.list('./')
+/*newFileUtility.list('./',{
+    extension: 'js,html,css',
+    printContent: true,
+    exportTo: './new.txt'
+});*/
+
+newFileUtility.list('./',{
+    extension: '.doc',
+    printContent: false,
+    exportTo: ''
+});
+
+
+
+######
+Archivo: fsystem.js######
+const fs = require('fs')
+
+class FileUtility{
+    constructor () {
+        this.paths=[];
+        this.typeFiles=[];
+        this.printContent=false;
+        this.exportTo = "";
+    }
+
+    list (path, parameters) {        
+        var extensions = parameters ? parameters.extension.split(',') : [];
+        var print = parameters ? parameters.printContent : false
+        var exportTo = parameters ? parameters.exportTo : ''
+
+        fs.readdir(path, function (err, files){
+            if (err){
+                console.err (`Not exist ${path}`);
+            };
+
+            const filteredPaths = extensions.length > 0 
+                ? files.filter(path => extensions.some(ext => path.endsWith(ext)))
+                : files
+
+            filteredPaths.forEach(filepath => {
+                console.log(filepath)
+                if (print) {
+                    fs.readFile(filepath, function (err, file) {
+                        if (err){
+                            console.error('File notfound');
+                        }
+                        if (exportTo != ""){
+                            /*fs.open(exportTo,'a+',function(err,fd){
+                                if (err){
+                                    console.err("error")
+                                }*/
+                                
+                            fs.appendFile(exportTo,`\n######\nArchivo: ${filepath}######\n${file}`, function(err){
+                                if (err){
+                                    console.errorreturn(err);
+                                }   
+                            })                                
+                            //})
+                        }
+                        else{
+                            console.log(`###########\nArchivo: ${exportTo}\n############\n ${newfile.toString()}`);
+                            
+                        }                        
+                    });
+                }
+            })
+        })        
+    }
+}
+
+
+var newFileUtility = new FileUtility();
+//newFileUtility.list('./')
+newFileUtility.list('./',{
+    extension: 'js,html,css',
+    printContent: true,
+    exportTo: './new.txt'
+});
+
+/*newFileUtility.list('./',{
+    extension: '.doc',
+    printContent: false,
+    exportTo: ''
+});*/
+
+
+
+######
+Archivo: howUseFor.js######
+var a= [1,2,3,4,5,6]
+
+//for in
+for (var number in a){
+	console.log(a)
+}
+
+
+//normal for
+for (var i; i<a.length;i++){
+	console.log(a[i])	
+}
+
+a.forEach(function(number){
+	console.log(number)
+})
+
+
+var b = a.map(function(number){
+	return number*10
+})
+
+var c=a.filter(function(number){
+	return number %2 ==0
+})
+
+var d=a.every(function(number){
+	return number%2==0
+})
+
+/*
+-For each
+-map
+-filter
+-every
+-some
+-find
+-findindex
+-reduce
+*/
+
+//template strings: (string interpolation)
+console.log(`${name} is ${age} years old.`)
+######
+Archivo: newspaper.js######
+function New(tittle, autor, date, picture, report, locale ){
+    this.tittle = tittle;
+    this.autor = autor;
+    this.date = date; 
+    this.picture = picture;
+    this.report = report;
+    this.locale = locale;
+    this.comments = new Array();
+    this.print = function(){
+        console.log(`TITULO:${this.tittle}\n
+        AUTOR:${this.autor}\n
+        DATE:${this.date}\n
+        PICTURE:${this.picture}\n
+        REPORT:${this.report}\n
+        LOCATE:${this.locale}\n`);
+    };
+}
+
+function Section(name){
+    this.name = name;
+    this.News = new Array();
+    this.addNew = function (myNew)
+    {
+        this.News.push(myNew);
+    }
+}
+
+function Newspaper(name){
+    this.name = name;
+    this.coverPage = undefined;
+    this.sections = new Array();
+    this.comments = new Array();
+    this.addSections = function (sectionName)
+    {
+        this.sections.push(new Section(sectionName));
+        this.coverPage = this.sections[0][0];
+    }
+    this.orderSectionBy = function(Type){
+        switch (Type){
+            case "name":{
+                this.sections.sort(function(section1, section2){
+                    return section1.name > section2.name;
+                });
+                
+                break;
+            }
+            case "size":{
+                this.sections.sort(function(section1, section2){
+                    return section1.News.length > section2.News.length;
+                });
+                break;
+            }
+            this.coverPage = this.sections[0][0];
+        }
+    };
+    this.show = function(){
+        this.coverPage.print();
+         this.sections.forEach(function(mNews){
+             mNews.News.forEach(function(Mynew){
+                 Mynew.print();
+             });
+         });
+    }
+}
+
+
+
+
+
+//TEST//////////////////
+
+var laPatria = new Newspaper("Lapatria");
+laPatria.addSections("Deportes");
+laPatria.addSections("Economicos");
+laPatria.addSections("Policial");
+
+
+var sportsNew = new New("Bolivar El Campeon","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var policialNew = new New("atraco","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var economicNew = new New("Inflacion","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var economic2New = new New("Inflacion2","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+var economic3New = new New("Inflacion3","Alejandro Heredia","30/20","picture","sskj kjhas jhsk dashkvks", "Sucre");
+
+laPatria.sections[0].addNew(sportsNew);
+
+laPatria.sections[1].addNew(economicNew);
+laPatria.sections[1].addNew(economic2New);
+laPatria.sections[1].addNew(economic3New);
+laPatria.sections[2].addNew(policialNew);
+
+laPatria.orderSectionBy("size");
+
+laPatria.coverPage = sportsNew;
+
+laPatria.show();
+######
+Archivo: prototype.js######
+
+######
+Archivo: stockExchange.js######
+	class Offer{
+		constructor(name, quantity, unitPrice){
+			this.name = name;
+			this.quantity = quantity;
+			this.unitPrice = unitPrice;
+		} 
+	}
+	class Demand{
+		constructor (name, requiredQuantity, unitPrice){
+			this.name = name;
+			this.requiredQuantity = requiredQuantity;
+			this.unitPrice = unitPrice;
+			this.capital = unitPrice * requiredQuantity;
+		}
+	}
+
+	class stockExchange{
+		constructor (){
+			this.offers = new Array ();
+			this.demands = new Array ();
+			this.transactions = new Array ();
+			this.gain = 0; 
+		}
+		addOffer (newOffer){
+			this.offers.push(newOffer);
+		}
+		addDemand (newDemand){
+			this.demands.push(newDemand);
+		}
+		reviewState (){
+			var revoffers = this.offers;
+			var revgain = this.gain;
+			var offersOfdemand = new Array();
+			this.demands.forEach(function(demand) {
+				 offersOfdemand = revoffers.filter(function(offer){
+					return offer.name == demand.name; 
+				});
+				offersOfdemand.sort(function(offer1,offer2){
+					return offer1.unitPrice > offer2.unitPrice;
+				});
+				while (offersOfdemand.length > 0 && demand.capital >= offersOfdemand[0].unitPrice && demand.unitPrice >= offersOfdemand[0].unitPrice ){
+					if(demand.requiredQuantity >= offersOfdemand[0].quantity){
+						demand.capital = demand.capital-(offersOfdemand[0].unitPrice*offersOfdemand[0].quantity)
+						revgain += (offersOfdemand[0].unitPrice*offersOfdemand[0].quantity)*0.05;
+						demand.requiredQuantity = demand.requiredQuantity-offersOfdemand[0].quantity
+						offersOfdemand.shift();
+					}
+					else {
+						demand.capital = demand.capital-(offersOfdemand[0].unitPrice*demand.requiredQuantity)
+						revgain += (offersOfdemand[0].unitPrice*offersOfdemand[0].quantity)*0.05;
+						demand.requiredQuantity = 0;
+					}
+					console.log(`Ganciancia de la plataforma: ${revgain}\n
+								 Recurso vendido: ${demand.name}\n
+								 Precio unitario: ${demand.unitPrice}\n
+								 Cantidad a requerir: ${demand.requiredQuantity}
+								 Capital actual: ${demand.capital}`);
+				}
+			});
+		}
+	}
+
+
+
+	//test///////
+	var newstockExchange = new stockExchange();
+	newstockExchange.addOffer(new Offer("oil",10,100));
+	newstockExchange.addOffer(new Offer("gold",8,50));
+	newstockExchange.addOffer(new Offer("plate",50,20));
+	newstockExchange.addOffer(new Offer("oil",10,200));
+	newstockExchange.addOffer(new Offer("oil",10,100));
+	newstockExchange.addDemand(new Demand("oil",100,100));
+	newstockExchange.addDemand(new Demand("gold",4,50));
+
+	newstockExchange.reviewState();
+
+
+######
+Archivo: untitled.js######
+//verciones Java
+//EcmaScript 5 el clasico
+//EcmaScript 2017 ultimo
+
+
+// declaracion de variables
+
+var myString = 'XD'
+
+let myOtherString = ':v'
+
+const yetAnotherString = ':)'
+
+/*
+diferencias en variables
+		scope			reassing        hoisting
+var    funcion          yet        		yes 		es5
+let    block			yet 			no          es2015
+const  block			no only type    no          es2015 
+*/
+
+//function declaration
+function sum(a,b){
+	return a+b
+}
+sum (1,2)
+sum(1,2,3,4)
+sum(1)
+sum()
+
+//function expression
+var multiply = function(a,b){
+	return a*b;
+}
+
+//callback funcion que se envia
+function execute (cb,a,b) {
+	return cb(a,b)
+
+}
+
+execute (sum,5,10)
+execute (multiply,2,9)
+
+function divide (a){
+	return function (b){
+		return a/b
+	}
+}
+
+divide(10)(5)
+
+//first order functions
+
+
+/*////////////////////////
+objetos
+////////////////////////*/
+
+var name = 'alejandro'
+
+///////////////////////////////////////////
+//object literals ES5
+var person = {
+	name: name,
+	age: 27,
+	sayHi: function()
+	{
+		console.log('Hi!!')
+	}
+}
+
+person.name='alejandro heredia'
+person.sayHi()
+
+person['name'] //para acceder por medio de variables
+////////////////////////////////////////////
+
+
+
+
+
+
+///////////////////////////////////////////
+
+var name='alejandro'
+//object literals ES2015
+var person = {
+	name //object attribute shorthand
+	age: 27,
+	sayHi(): //object method shorthand
+	{
+		console.log('Hi!!')
+	}
+	['date-birth']='21/5/2017' //computed propety
+}
+
+person.name='alejandro heredia'
+person.sayHi()
+
+person['name'] //para acceder por medio de variables
+
+
+
+////////////////////////////////////////////////
+
+
+
+//Object creation patterns
+//-object literal
+//-constructor functions
+//-factory functions
+//-classes
+
+//-constructor functions //es5
+function Person (name,age){
+	this.name=name
+	this.age=age
+	this.sayHi= function(){
+		console.log('Hi!!')
+	}
+	job
+}
+
+var pedro = new Person('Pedor',20)
+
+
+
+///////////////////////////////////
+/*
+######
+Archivo: vie23jun.js######
+//otro periodico//
+
+//ES%
+function NewsPaper(params){
+    this.title = params.title;
+    this.summary = params.summary;
+    this.content = params.content;
+    this.date = params.date;
+    this.author = params.author;
+}
+
+NewsPaper.medium = "Paper"
+
+NewsPaper.prototype = {
+    format() {
+        return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`
+    }
+}
+
+
+NewsPaper.prototype.format = function (){
+    return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`
+}
+
+var NewsPaper1 = new NewsPaper({
+    title: "Bye C. Ronaldo", 
+    summary: "Ronaldo lives RM",
+    content: "........",
+    date: "06/23/2017",
+    author: "Alejandro Heredia",
+})
+
+
+console.log(NewsPaper1.format())
+
+//nueva version ES2015
+
+class NewsPaper{
+    constructor (params){
+    this.title = params.title;
+    this.summary = params.summary;
+    this.content = params.content;
+    this.date = params.date;
+    this.author = params.author;
+    }
+    format (){
+    return `${this.title}\n${this.summary}\n${this.date}\n${this.author}`;
+    }
+    static get medium (){
+        return "Paper";
+    }
+}
+
+var NewsPaper1 = new NewsPaper({
+    title: "Bye C. Ronaldo", 
+    summary: "Ronaldo lives RM",
+    content: "........",
+    date: "06/23/2017",
+    author: "Alejandro Heredia",
+})
+
+
+console.log(NewsPaper1.format())
+//dafault function parameters
+function isRequired(paramName){
+    trow new Error (`${paramName} is required`)
+}
+
+
+function printInvoice (item = isRequired(`Item`),price=100){
+    //ES
+    //price=price||100
+    //if (!item){
+    //    trow new Error (`Item is required`)
+    //}
+    console.log(`${item} - ${price}Bs`)
+}
+
+//printInvoice('bike',100);
+
+
+////////////////////////TAREA///////////////////
+
+
