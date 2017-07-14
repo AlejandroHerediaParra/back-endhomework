@@ -1,0 +1,19 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "\"This is a sampla project\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "\"Alejandro Heredia\"",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^4.11.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "jasmine": "^2.6.0"
+  }
+}
